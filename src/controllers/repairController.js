@@ -54,6 +54,19 @@ const createRepair = async (req, res, next) => {
   }
 };
 
+const updateRepair = async (req, res, next) => {
+  try {
+    const repair = await RepairService.updateRepair(req.params.id, req.body);
+    return res.json({
+      success: true,
+      message: 'Orden de reparación actualizada exitosamente.',
+      repair,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const updateRepairStatus = async (req, res, next) => {
   try {
     const validation = RepairDto.validateStatusUpdate(req.body);
@@ -131,6 +144,7 @@ module.exports = {
   getRepairs,
   getRepairById,
   createRepair,
+  updateRepair,
   updateRepairStatus,
   addRepairItem,
   removeRepairItem,

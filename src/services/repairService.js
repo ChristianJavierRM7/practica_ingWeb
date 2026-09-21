@@ -136,6 +136,45 @@ class RepairService {
     return result.rows[0];
   }
 
+  static async updateRepair(id, updateData) {
+    const checkOrder = await db.query('SELECT * FROM repair_orders WHERE id = $1', [id]);
+    if (checkOrder.rows.length === 0) {
+      const err = new Error('Orden de reparación no encontrada.');
+      err.statusCode = 404;
+      throw err;
+    }
+
+    const current = checkOrder.rows[0];
+
+    const updatedTechId = updateData.technician_id !== undefined ? updateData.technician_id : current.technician_id;
+    const updatedBrand = updateData.device_brand !== undefined ? updateData.device_brand.trim() : current.device_brand;
+    const updatedModel = updateData.device_model !== undefined ? updateData.device_model.trim() : current.device_model;
+    const updatedImei = updateData.serial_imei !== undefined ? updateData.serial_imei.trim() : current.serial_imei;
+    const updatedFault = updateData.fault_description !== undefined ? updateData.fault_description.trim() : current.fault_description;
+    const updatedEstCost = updateData.estimated_cost !== undefined ? parseFloat(updateData.estimated_cost) : current.estimated_cost;
+    const updatedNotes = updateData.repair_notes !== undefined ? updateData.repair_notes : current.repair_notes;
+
+    const result = await db.query(
+      `UPDATE repair_orders
+       SET technician_id = $1, device_brand = $2, device_model = $3, serial_imei = $4,
+           fault_description = $5, estimated_cost = $6, repair_notes = $7
+       WHERE id = $8
+       RETURNING *`,
+      [
+        updatedTechId,
+        updatedBrand,
+        updatedModel,
+        updatedImei,
+        updatedFault,
+        updatedEstCost,
+        updatedNotes,
+        id,
+      ]
+    );
+
+    return result.rows[0];
+  }
+
   static async updateStatus(id, status) {
     const result = await db.query(
       'UPDATE repair_orders SET status = $1 WHERE id = $2 RETURNING *',
