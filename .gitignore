@@ -1,0 +1,12 @@
+# Dependencias
+node_modules/
+npm-debug.log*
+
+# Variables de entorno sensibles (usar .env.example)
+.env
+
+# Archivos de sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
