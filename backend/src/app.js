@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const path = require('path');
 require('dotenv').config();
 
 const db = require('./config/db');
@@ -23,9 +22,6 @@ app.use(helmet({
 }));
 app.use(cors());
 app.use(express.json());
-
-// Servir la Aplicación Web Cliente (Frontend)
-app.use(express.static(path.join(__dirname, '../client')));
 
 // Endpoint de Salud (Health check)
 app.get('/health', async (req, res) => {
@@ -52,15 +48,16 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/api/repairs', repairRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// Manejador de Rutas No Encontradas (404) -> Retornar index.html para SPA o 404 para API
+// Manejador de Rutas No Encontradas (404)
 app.use((req, res) => {
-  if (req.originalUrl.startsWith('/api')) {
-    return res.status(404).json({
-      success: false,
-      message: `Ruta de API no encontrada: ${req.method} ${req.originalUrl}`,
-    });
-  }
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+  const message = req.originalUrl.startsWith('/api')
+    ? `Ruta de API no encontrada: ${req.method} ${req.originalUrl}`
+    : `Ruta no encontrada: ${req.method} ${req.originalUrl}`;
+
+  res.status(404).json({
+    success: false,
+    message,
+  });
 });
 
 // Middleware Global de Manejo de Errores
@@ -70,10 +67,9 @@ app.use(errorHandler);
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`=======================================================`);
-    console.log(`🚀 SERVIDORES INICIADOS (ARQUITECTURA CLIENTE-SERVIDOR)`);
-    console.log(`💻 Cliente Frontend (Dashboard UI): http://localhost:${PORT}`);
-    console.log(`🖥️  Servidor Backend (REST API):     http://localhost:${PORT}/api`);
-    console.log(`📊 Endpoint de Salud DB:             http://localhost:${PORT}/health`);
+    console.log(`🚀 API REST TechFix iniciada`);
+    console.log(`🖥️  Backend API:                      http://localhost:${PORT}/api`);
+    console.log(`📊 Endpoint de Salud DB:              http://localhost:${PORT}/health`);
     console.log(`=======================================================`);
   });
 }

@@ -10,7 +10,7 @@ COPY package*.json ./
 # Instalación de dependencias
 RUN npm install --production
 
-# Copiar código fuente y cliente web
+# Copiar el código fuente del backend
 COPY . .
 
 # Exponer el puerto 3000 del servidor
