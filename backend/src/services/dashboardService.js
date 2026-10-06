@@ -20,7 +20,14 @@ class DashboardService {
         COUNT(CASE WHEN status = 'listo' THEN 1 END) as total_listo,
         COUNT(CASE WHEN status = 'entregado' THEN 1 END) as total_entregado,
         COUNT(CASE WHEN status = 'cancelado' THEN 1 END) as total_cancelado,
-        COALESCE(SUM(CASE WHEN status = 'entregado' THEN final_cost ELSE 0 END), 0.00) as total_revenue
+        COALESCE(SUM(CASE WHEN status = 'entregado' THEN final_cost ELSE 0 END), 0.00) as total_revenue,
+        COALESCE(SUM(CASE
+          WHEN status = 'entregado'
+            AND created_at >= date_trunc('month', CURRENT_DATE)
+            AND created_at < date_trunc('month', CURRENT_DATE) + INTERVAL '1 month'
+          THEN final_cost
+          ELSE 0
+        END), 0.00) as monthly_revenue
       FROM repair_orders
     `);
 

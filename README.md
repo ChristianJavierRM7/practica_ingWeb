@@ -2,6 +2,26 @@
 
 Aplicación web para gestionar reparaciones de dispositivos, inventario y usuarios de un taller técnico.
 
+## Capturas de la interfaz
+
+Estas capturas se tomaron con el frontend ejecutándose en el navegador. Muestran la interfaz en modo de demostración con datos de ejemplo; sirven como evidencia visual de las pantallas y la navegación, pero no representan datos reales ni confirman una conexión activa a PostgreSQL.
+
+### Dashboard
+
+![Dashboard de TechFix](docs/screenshots/dashboard.png)
+
+### Órdenes de reparación
+
+![Listado de órdenes de reparación](docs/screenshots/ordenes.png)
+
+### Inventario y repuestos
+
+![Inventario y alertas de stock](docs/screenshots/inventario.png)
+
+### Detalle de una orden
+
+![Detalle y seguimiento de una orden](docs/screenshots/detalle-orden.png)
+
 ## Tecnologías
 
 - **Frontend**: React y Vite en `frontend/`
