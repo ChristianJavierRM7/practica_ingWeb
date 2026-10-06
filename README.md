@@ -4,7 +4,7 @@ Aplicación web para gestionar reparaciones de dispositivos, inventario y usuari
 
 ## Capturas de la interfaz
 
-Estas capturas se tomaron con el frontend ejecutándose en el navegador. Muestran la interfaz en modo de demostración con datos de ejemplo; sirven como evidencia visual de las pantallas y la navegación, pero no representan datos reales ni confirman una conexión activa a PostgreSQL.
+Estas capturas se tomaron con el frontend ejecutándose en el navegador. Muestran la interfaz en modo de demostración con datos de ejemplo.
 
 ### Dashboard
 
